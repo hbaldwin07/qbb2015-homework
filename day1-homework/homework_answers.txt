@@ -1,0 +1,35 @@
+1. download successful
+
+2. /Users/cmdb/qbb2015-homework/day1-homework $ cd
+/Users/cmdb $ cd /Users/cmdb/qbb2015/rawdata
+/Users/cmdb/qbb2015/rawdata $ gzip -d SRR072893.fastq.gz > SRR072893.fastq
+SRR072893.fastq already exists -- do you wish to overwrite (y or n)? y
+/Users/cmdb/qbb2015/rawdata $ cp SRR072893.fastq /Users/cmdb/qbb2015-homework/day1-homework
+/Users/cmdb/qbb2015/rawdata $ cd /Users/cmdb/qbb2015-homework/day1-homework
+/Users/cmdb/qbb2015-homework/day1-homework $ fastqc SRR072893.fastq 
+
+3. /Users/cmdb/qbb2015/day1 $ hisat -p 4 -x ~/qbb2015/genomes/BDGP6 -U ~/qbb2015/rawdata/SRR072893.fastq -S answers
+
+4. /Users/cmdb/qbb2015/day1 $ samtools view -bS answers > answers.bam
+/Users/cmdb/qbb2015/day1 $ samtools sort answers.bam answers.sorted
+[bam_sort_core] merging from 7 files...
+/Users/cmdb/qbb2015/day1 $ samtools index answers.bam
+[E::hts_idx_push] NO_COOR reads not in a single block at the end 5 -1
+
+5. /Users/cmdb/qbb2015/day1 $ StringTie answers.sorted.bam -G ~/qbb2015/genomes/BDGP6.Ensembl.81.gtf -o answers_alignment -p 4 -e -B
+
+6. FASTQ_DIR=/Users/cmdb/qbb2015/rawdata
+OUTPUT_DIR=/Users/cmdb/qbb2015/assignments/day1-homework
+
+GENOME_DIR=/Users/cmdb/qbb2015/genomes/BDGP6
+ANNOTATION=BDGP6.Ensembl.81.gtf
+
+CORES=4
+
+FASTQIN = SRR072893.fastq.gz
+
+for i in {1..24}
+do
+  echo fastqc $FASTQ_DIR/$FASTQIN -o $OUTPUT_DIR
+  echo hisat -p 4 -x $GENOME_DIR$i -U $FAST_DIR/FASQIN -S SRR072893.sam
+done
