@@ -17,12 +17,7 @@ for i, data in metadf.iterrows():
             dev_stage[data["stage"]] = 1
         else:
             dev_stage[data["stage"]] += 1
-for i, data in metadf.iterrows():
-    if data["stage"] in ["10", "11", "12", "13", "14A", "14B", "14C", "14D"]:
-        if data["stage"] not in dev_stage:
-            dev_stage[data["stage"]] = 1
-        else:
-            dev_stage[data["stage"]] += 1
+
 
 Sxl = []
 for sample in metadf[metadf["sex"] == "female"]["sample"]:
@@ -35,6 +30,7 @@ for sample in metadf2[metadf2["sex"] == "female"]["sample"]:
     df2 = pd.read_table("~/qbb2015/stringtie/" + sample + "/t_data.ctab")
     roi2 = df2["t_name"].str.contains("FBtr0331261")
     Sxl2.append(df2[roi2]["FPKM"].values)
+    dev_stage[data["stage"]] += 4
 
 Sxlm = []
 for sample in metadf[metadf["sex"] == "male"]["sample"]:
@@ -47,7 +43,13 @@ for sample in metadf2[metadf2["sex"] == "male"]["sample"]:
     dfm2 = pd.read_table("~/qbb2015/stringtie/" + sample + "/t_data.ctab")
     roim2 = dfm2["t_name"].str.contains("FBtr0331261")
     Sxlm2.append(dfm2[roim2]["FPKM"].values)
+    dev_stage[data["stage"]] += 4
 
+
+print Sxl
+print Sxl2
+print Sxlm
+print Sxlm2
 
 plt.figure()
 plt.plot(Sxl, 'r')
