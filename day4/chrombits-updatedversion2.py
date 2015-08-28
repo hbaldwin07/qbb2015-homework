@@ -52,10 +52,10 @@ class ChromosomeLocationBitArrays(object):
        # return ChromosomeLocationBitArrays( dicts = rval)
        for x in self.arrays:
            if x == 1 &!=0: 
-               start = int(fields[1])
+               return start
            else:
-               end = int(fields[2])
-       return rval((chrom, start, end)) 
+               return end 
+       print rval((chrom, start, end)) 
     
     def copy( self):
         return ChromosomeLocationBitArrays( dicts=copy.deepcopy(self.arrays))
